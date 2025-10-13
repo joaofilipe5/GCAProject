@@ -1,0 +1,274 @@
+---------------MODELO 1-----------------------                         
+
+=== Solve Status ===
+Optimal
+Objective (Total Cost) = 999,224,982.76 EUR
+Transport (H2): 0.35 €/t·km
+Energy base: wind=10,000 €/GWh | solar=12,000 €/GWh
+Dynamic pricing active (method=range_linear) → wind €/GWh range: 20,000–60,000; solar €/GWh range: 10,000–90,000
+Energy used: 28,551.432 GWh  (wind 21,690.432 | solar 6,861.000)  → est. energy cost = 502,418,640.00 EUR
+
+=== Production & Storage Facilities Chosen (static across periods) ===
+Production sites (i, type, capacity t/yr):
+  - Faro            | S        | 182,500
+  - Viseu           | S        | 182,500
+Storage sites (i, type, capacity t/yr):
+  - Évora           | 1        | 365,000
+  - Vila Real       | 1        | 365,000
+
+=== Per-period cost breakdown (EUR) ===
+CAPEX (static, reported once): 81,000,000 EUR
+  Period |      Transport |         Energy |      OPEX_prod |     OPEX_store |   Total (no CAPEX)
+-------------------------------------------------------------------------------------------------
+    2030 |      8,379,301 |    177,024,500 |    117,584,998 |      2,153,200 |        305,142,000
+    2040 |     13,914,354 |    148,566,500 |    100,844,998 |     10,766,000 |        274,091,852
+    2050 |     23,158,271 |    176,827,640 |    117,469,198 |     21,532,000 |        338,987,110
+
+=== Period 2030 (alpha=2.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production=      0.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv= 31,334.7 t
+  [Node Faro] Production= 44,843.1 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv=      0.0 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=      0.0 t
+  [Node Vila Real] Production=      0.0 t  EndInv=143,108.3 t
+  [Node Viseu] Production=151,131.9 t  EndInv=      0.0 t
+  Transport:
+    P->S flow X = 195,975.0 t/yr | trailers = 871
+    S->D flow Y = 21,532.0 t/yr | trailers = 96
+
+=== Period 2040 (alpha=10.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production=      0.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv= 47,954.5 t
+  [Node Faro] Production= 44,843.1 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv=      0.0 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=      0.0 t
+  [Node Vila Real] Production=      0.0 t  EndInv=186,903.5 t
+  [Node Viseu] Production=123,231.9 t  EndInv=      0.0 t
+  Transport:
+    P->S flow X = 168,075.0 t/yr | trailers = 747
+    S->D flow Y = 107,660.0 t/yr | trailers = 479
+
+=== Period 2050 (alpha=20.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production=      0.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv= 46,398.8 t
+  [Node Faro] Production= 44,843.1 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv=      0.0 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=      0.0 t
+  [Node Vila Real] Production=      0.0 t  EndInv=168,921.2 t
+  [Node Viseu] Production=150,938.9 t  EndInv=      0.0 t
+  Transport:
+    P->S flow X = 195,782.0 t/yr | trailers = 871
+    S->D flow Y = 215,320.0 t/yr | trailers = 957
+
+---------------MODELO 2-----------------------
+
+=== Solve Status ===
+Optimal
+Objective (Total Cost) = 486,280,268.92 EUR
+Transport (H2): 0.35 €/t·km
+Energy used (no cost): 28,551.432 GWh  (wind 27,992.357 | solar 559.075)
+
+=== Facilities Opened By Period ===
+Period 2030:
+  Production opened:
+    - Coimbra         | S        | cap 182,500 t/yr
+    - Viseu           | S        | cap 182,500 t/yr
+  Storage opened:
+    - Portalegre      | 1        | cap 365,000 t/yr
+    - Viana do Castelo | 1        | cap 365,000 t/yr
+
+=== Active Facilities By Period (cumulative) ===
+Period 2030:
+  Production active:
+    - Coimbra         | S        | cap 182,500 t/yr
+    - Viseu           | S        | cap 182,500 t/yr
+  Storage active:
+    - Portalegre      | 1        | cap 365,000 t/yr
+    - Viana do Castelo | 1        | cap 365,000 t/yr
+Period 2040:
+  Production active:
+    - Coimbra         | S        | cap 182,500 t/yr
+    - Viseu           | S        | cap 182,500 t/yr
+  Storage active:
+    - Portalegre      | 1        | cap 365,000 t/yr
+    - Viana do Castelo | 1        | cap 365,000 t/yr
+Period 2050:
+  Production active:
+    - Coimbra         | S        | cap 182,500 t/yr
+    - Viseu           | S        | cap 182,500 t/yr
+  Storage active:
+    - Portalegre      | 1        | cap 365,000 t/yr
+    - Viana do Castelo | 1        | cap 365,000 t/yr
+
+=== Per-period cost breakdown (EUR) ===
+CAPEX (sum over openings): 81,000,000 EUR
+  Period |      Transport |    OPEX_prod |   OPEX_store |   Trailers |        CAPEX |   Total no CAPEX | Total incl CAPEX
+-------------------------------------------------------------------------------------------------------------------------
+    2030 |      7,843,145 |  141,229,200 |    2,153,200 |      1,143 |   81,000,000 |      151,226,688 |      232,226,688
+    2040 |      6,265,999 |   51,975,000 |   10,766,000 |        864 |            0 |       69,007,863 |       69,007,863
+    2050 |     20,816,704 |  142,695,000 |   21,532,000 |      2,014 |            0 |      185,045,718 |      185,045,718
+
+=== Period 2030 (alpha=2.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production= 86,549.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv=      0.0 t
+  [Node Faro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv= 71,686.0 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=142,164.0 t
+  [Node Vila Real] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viseu] Production=148,833.0 t  EndInv=      0.0 t
+  Demand satisfaction:
+    - Aveiro         : delivered=4,405.0 t  unmet=215,845.0 t  (target α·b=4,405.0 t)
+    - Beja           : delivered=0.0 t  unmet=0.0 t  (target α·b=0.0 t)
+    - Braga          : delivered=231.2 t  unmet=11,328.8 t  (target α·b=231.2 t)
+    - Bragança       : delivered=0.1 t  unmet=5.9 t  (target α·b=0.1 t)
+    - Castelo Branco : delivered=5.0 t  unmet=245.0 t  (target α·b=5.0 t)
+    - Coimbra        : delivered=998.7 t  unmet=48,935.3 t  (target α·b=998.7 t)
+    - Évora          : delivered=19.9 t  unmet=976.1 t  (target α·b=19.9 t)
+    - Faro           : delivered=0.1 t  unmet=6.9 t  (target α·b=0.1 t)
+    - Guarda         : delivered=1.2 t  unmet=56.8 t  (target α·b=1.2 t)
+    - Leiria         : delivered=3,691.7 t  unmet=180,893.3 t  (target α·b=3,691.7 t)
+    - Lisboa         : delivered=1,032.9 t  unmet=50,612.1 t  (target α·b=1,032.9 t)
+    - Portalegre     : delivered=1.1 t  unmet=54.9 t  (target α·b=1.1 t)
+    - Porto          : delivered=1,246.6 t  unmet=61,083.4 t  (target α·b=1,246.6 t)
+    - Santarém       : delivered=613.7 t  unmet=30,073.3 t  (target α·b=613.7 t)
+    - Setúbal        : delivered=9,153.4 t  unmet=448,514.6 t  (target α·b=9,153.4 t)
+    - Viana do Castelo: delivered=49.8 t  unmet=2,438.2 t  (target α·b=49.8 t)
+    - Vila Real      : delivered=3.7 t  unmet=180.3 t  (target α·b=3.7 t)
+    - Viseu          : delivered=77.9 t  unmet=3,818.1 t  (target α·b=77.9 t)
+  Transport:
+    P->S flow X = 235,382.0 t/yr | trailers = 1047
+    S->D flow Y = 21,532.0 t/yr | trailers = 96
+  Openings this period: prod=2, storage=2
+
+=== Period 2040 (alpha=10.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production= 86,549.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv=      0.0 t
+  [Node Faro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv= 83,919.8 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=108,895.2 t
+  [Node Vila Real] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viseu] Production=     76.0 t  EndInv=      0.0 t
+  Demand satisfaction:
+    - Aveiro         : delivered=22,025.0 t  unmet=198,225.0 t  (target α·b=22,025.0 t)
+    - Beja           : delivered=0.0 t  unmet=0.0 t  (target α·b=0.0 t)
+    - Braga          : delivered=1,156.0 t  unmet=10,404.0 t  (target α·b=1,156.0 t)
+    - Bragança       : delivered=0.6 t  unmet=5.4 t  (target α·b=0.6 t)
+    - Castelo Branco : delivered=25.0 t  unmet=225.0 t  (target α·b=25.0 t)
+    - Coimbra        : delivered=4,993.4 t  unmet=44,940.6 t  (target α·b=4,993.4 t)
+    - Évora          : delivered=99.6 t  unmet=896.4 t  (target α·b=99.6 t)
+    - Faro           : delivered=0.7 t  unmet=6.3 t  (target α·b=0.7 t)
+    - Guarda         : delivered=5.8 t  unmet=52.2 t  (target α·b=5.8 t)
+    - Leiria         : delivered=18,458.5 t  unmet=166,126.5 t  (target α·b=18,458.5 t)
+    - Lisboa         : delivered=5,164.5 t  unmet=46,480.5 t  (target α·b=5,164.5 t)
+    - Portalegre     : delivered=5.6 t  unmet=50.4 t  (target α·b=5.6 t)
+    - Porto          : delivered=6,233.0 t  unmet=56,097.0 t  (target α·b=6,233.0 t)
+    - Santarém       : delivered=3,068.7 t  unmet=27,618.3 t  (target α·b=3,068.7 t)
+    - Setúbal        : delivered=45,766.8 t  unmet=411,901.2 t  (target α·b=45,766.8 t)
+    - Viana do Castelo: delivered=248.8 t  unmet=2,239.2 t  (target α·b=248.8 t)
+    - Vila Real      : delivered=18.4 t  unmet=165.6 t  (target α·b=18.4 t)
+    - Viseu          : delivered=389.6 t  unmet=3,506.4 t  (target α·b=389.6 t)
+  Transport:
+    P->S flow X = 86,625.0 t/yr | trailers = 385
+    S->D flow Y = 107,660.0 t/yr | trailers = 479
+  Openings this period: prod=0, storage=0
+
+=== Period 2050 (alpha=20.00%) ===
+  [Node Aveiro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Beja] Production=      0.0 t  EndInv=      0.0 t
+  [Node Braga] Production=      0.0 t  EndInv=      0.0 t
+  [Node Bragança] Production=      0.0 t  EndInv=      0.0 t
+  [Node Castelo Branco] Production=      0.0 t  EndInv=      0.0 t
+  [Node Coimbra] Production= 86,549.0 t  EndInv=      0.0 t
+  [Node Évora] Production=      0.0 t  EndInv=      0.0 t
+  [Node Faro] Production=      0.0 t  EndInv=      0.0 t
+  [Node Guarda] Production=      0.0 t  EndInv=      0.0 t
+  [Node Leiria] Production=      0.0 t  EndInv=      0.0 t
+  [Node Lisboa] Production=      0.0 t  EndInv=      0.0 t
+  [Node Portalegre] Production=      0.0 t  EndInv= 85,234.4 t
+  [Node Porto] Production=      0.0 t  EndInv=      0.0 t
+  [Node Santarém] Production=      0.0 t  EndInv=      0.0 t
+  [Node Setúbal] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viana do Castelo] Production=      0.0 t  EndInv=130,085.6 t
+  [Node Vila Real] Production=      0.0 t  EndInv=      0.0 t
+  [Node Viseu] Production=151,276.0 t  EndInv=      0.0 t
+  Demand satisfaction:
+    - Aveiro         : delivered=44,050.0 t  unmet=176,200.0 t  (target α·b=44,050.0 t)
+    - Beja           : delivered=0.0 t  unmet=0.0 t  (target α·b=0.0 t)
+    - Braga          : delivered=2,312.0 t  unmet=9,248.0 t  (target α·b=2,312.0 t)
+    - Bragança       : delivered=1.2 t  unmet=4.8 t  (target α·b=1.2 t)
+    - Castelo Branco : delivered=50.0 t  unmet=200.0 t  (target α·b=50.0 t)
+    - Coimbra        : delivered=9,986.8 t  unmet=39,947.2 t  (target α·b=9,986.8 t)
+    - Évora          : delivered=199.2 t  unmet=796.8 t  (target α·b=199.2 t)
+    - Faro           : delivered=1.4 t  unmet=5.6 t  (target α·b=1.4 t)
+    - Guarda         : delivered=11.6 t  unmet=46.4 t  (target α·b=11.6 t)
+    - Leiria         : delivered=36,917.0 t  unmet=147,668.0 t  (target α·b=36,917.0 t)
+    - Lisboa         : delivered=10,329.0 t  unmet=41,316.0 t  (target α·b=10,329.0 t)
+    - Portalegre     : delivered=11.2 t  unmet=44.8 t  (target α·b=11.2 t)
+    - Porto          : delivered=12,466.0 t  unmet=49,864.0 t  (target α·b=12,466.0 t)
+    - Santarém       : delivered=6,137.4 t  unmet=24,549.6 t  (target α·b=6,137.4 t)
+    - Setúbal        : delivered=91,533.6 t  unmet=366,134.4 t  (target α·b=91,533.6 t)
+    - Viana do Castelo: delivered=497.6 t  unmet=1,990.4 t  (target α·b=497.6 t)
+    - Vila Real      : delivered=36.8 t  unmet=147.2 t  (target α·b=36.8 t)
+    - Viseu          : delivered=779.2 t  unmet=3,116.8 t  (target α·b=779.2 t)
+  Transport:
+    P->S flow X = 237,825.0 t/yr | trailers = 1057
+    S->D flow Y = 215,320.0 t/yr | trailers = 957
+  Openings this period: prod=0, storage=0
+
+=== Runtime ===
+Total runtime: 31 min 7.26 sec

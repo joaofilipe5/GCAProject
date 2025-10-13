@@ -1,14 +1,12 @@
 # Research config (overrides). Keep project-provided tables in data.py.
 
 CONFIG = {
-    
+        
     # Logistics
-    "TRANS_COST_EUR_PER_TKM": 0.40,
-    "ENERGY_GRID_COST_EUR_PER_GWHKM": 0.01,
+    "TRANS_COST_EUR_PER_TKM": 0.35,
+    "ENERGY_GRID_COST_EUR_PER_GWHKM": 0.01,  # €/GWh·km
 
     # Power & process
-    "ENERGY_COST_WIND_EUR_PER_GWH": 3000, # This values are not changing the total cost, and the total cost is brutally high compared to last years project references
-    "ENERGY_COST_SOLAR_EUR_PER_GWH": 3000,
     "GAMMA_GWH_PER_TON": 0.051,
 
     # Time
@@ -22,18 +20,18 @@ CONFIG = {
 
     # OPEX (€/t) — keys must match data.py sets
     "OPEX_PROD_EUR_PER_TON": {
-        "S": 1000,   # €/t
-        "M": 500,   # €/t
-        "L": 250,    # €/t
+        "S": 600,   # €/t
+        "M": 400,   # €/t
+        "L": 200,    # €/t
     },
 
     # If keeping the model’s “charge on outflow” approach, use small numbers (≈2–10 €/t)
     "OPEX_STORE_EUR_PER_TON": {
-        "1": 5,    # €/t handled
-        "2": 7,
-        "3": 9,
-        "4": 11,
-        "5": 13,
+        "1": 250,    # €/t handled
+        "2": 200,
+        "3": 150,
+        "4": 120,
+        "5": 100,
     },
 
     "DAYS_PER_YEAR": 365,
@@ -55,3 +53,17 @@ CONFIG = {
     },
     "SENS_PEN_POINTS": 5,
 }
+
+
+# --- Dynamic electricity pricing (single price, range-linear) ---
+# Prices decrease with higher total local availability (wind+solar), normalized by the max across nodes.
+# Method = "range_linear_single": c_i = p_max - (p_max - p_min) * A_i,  A_i in [0,1]
+# where A_i = (wind_i + solar_i) / max_j (wind_j + solar_j)
+CONFIG["ELECTRICITY_PRICING"] = {
+    "DYNAMIC": True,
+    "METHOD": "range_linear_single",
+    "P_MIN_EUR_PER_GWH": 20000.0,   # lower bound €/GWh
+    "P_NORM_EUR_PER_GWH": 50000.0,   # mid-point €/GWh (not used in "single" method)
+    "P_MAX_EUR_PER_GWH": 60000.0    # upper bound €/GWh
+}
+
