@@ -1,1 +1,16 @@
 .DS_Store
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.env
+.env.*
+*.log
+*.lp
+*.mps
+*.sol
+ghsc_sensitivity/
+simple_sensitivity_out/
+results/local/

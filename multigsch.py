@@ -23,7 +23,7 @@ Mapping to the guide (slide numbers in the PDF):
 - Objective (slide 14): min TotalCost = Investment (only when opening) + Operating + Transport + Trailer penalties
 - Constraints (slides 15–18):
   • Energy balance to production      → ElecReq (15.1)
-  • Energy availability (no grid flows) → ElecLocalOnly (15.2–15.3)
+  • Energy availability plus inter-district renewable electricity transfers
   • Production flow to storage        → ProdFlow (16.2)
   • Storage inventory dynamics        → StorInvDyn (15.4 / 16.1)
   • Storage capacity                  → StorInvCap (18.2)
@@ -111,7 +111,7 @@ def _solve_with_spinner(prob, solver, label="Solving MILP (CBC)...", show=True):
     t_spin.join()
 
 
-def build_and_solve(alpha_by_t=None, c_trans=TRANS_COST_EUR_PER_TKM, energy_cost_wind=None, energy_cost_solar=None):
+def build_and_solve(alpha_by_t=None, c_trans=TRANS_COST_EUR_PER_TKM, pnorm=None):
     start_time = time.time()
     prob = LpProblem("GHSC_Portugal_2050", LpMinimize)
 
@@ -156,10 +156,13 @@ def build_and_solve(alpha_by_t=None, c_trans=TRANS_COST_EUR_PER_TKM, energy_cost
         _CFG_FRESH = _CFG
 
     pr_cfg = _CFG_FRESH.get("ELECTRICITY_PRICING", {}) or {}
-    # Require explicit electricity price; no fallback allowed
-    if "P_NORM_EUR_PER_GWH" not in pr_cfg:
-        raise KeyError("ELECTRICITY_PRICING must contain 'P_NORM_EUR_PER_GWH' (fallback removed).")
-    EC_ELEC = float(pr_cfg["P_NORM_EUR_PER_GWH"])
+    # Accept function parameter override; else require explicit PNORM in config
+    if pnorm is None:
+        if "P_NORM_EUR_PER_GWH" not in pr_cfg:
+            raise KeyError("ELECTRICITY_PRICING must contain 'P_NORM_EUR_PER_GWH' (fallback removed).")
+        EC_ELEC = float(pr_cfg["P_NORM_EUR_PER_GWH"])
+    else:
+        EC_ELEC = float(pnorm)
     cost_elec_by_i = {i: EC_ELEC for i in I}
 
     # --- Objective ---
@@ -312,7 +315,8 @@ def build_and_solve(alpha_by_t=None, c_trans=TRANS_COST_EUR_PER_TKM, energy_cost
     print(status)
     print(f"Objective (Total Cost) = {obj:,.2f} EUR")
     print(f"Transport (H2): {c_trans:.2f} €/t·km")
-    print(f"Electricity: {EC_ELEC:,.0f} €/GWh (uniform; base=P_MAX_EUR_PER_GWH) | grid transport={ENERGY_GRID_COST_EUR_PER_GWHKM:.3f} €/GWh·km")
+    src = "PNORM (arg)" if pnorm is not None else "PNORM (config)"
+    print(f"Electricity (uniform): {EC_ELEC:,.0f} €/GWh [{src}] | grid transport={ENERGY_GRID_COST_EUR_PER_GWHKM:.3f} €/GWh·km")
     
 
     # Energy usage (no costs)

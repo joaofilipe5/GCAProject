@@ -10,7 +10,7 @@ GHSC network model — static facility design + dynamic operations
 ----------------------------------------------------------------
 This MILP chooses which production/storage facilities to open (static across T)
 and optimizes period-by-period production, flows, inventory, energy use, and
-trailers. Electricity is local (no grid flow); price is node-specific via
+trailers. Renewable electricity can transfer between districts; price is node-specific via
 CONFIG["ELECTRICITY_PRICING"] (single price, range-linear).
 
 Sets (from data.py):
@@ -24,7 +24,7 @@ Key features:
 - Static design binaries: z_prod[i,l], z_store[i,m]   (NOT time-indexed)
 - Dynamic ops: Pro, X, Y, Inv, v, ESD, n_PS, n_SD     (time-indexed)
 - Objective: CAPEX + Transport + Energy (node-specific €/GWh) + OPEX(prod) + OPEX(storage) + Trailer penalties
-- Energy: local availability only; dynamic €/GWh decreases with higher local availability if enabled.
+- Energy: local availability plus grid transfers; €/GWh decreases with higher local availability.
 """
 
 # ---- Data & configuration ----------------------------------------------------
@@ -106,8 +106,8 @@ def _solve_with_spinner(prob, solver, label="Solving MILP (CBC)...", show=True):
 def build_and_solve(
     alpha_by_t=None,
     c_trans=TRANS_COST_EUR_PER_TKM,
-    energy_cost_wind=None,  # interpreted as base electricity price if provided
-    energy_cost_solar=None, # ignored (compat)
+    pmin=None,
+    pmax=None,
     dynamic_energy_pricing=True,
 ):
     start_time = time.time()
@@ -160,9 +160,13 @@ def build_and_solve(
         or 100.0
     )
 
-    # Price band; if not provided, default to ±20% around BASE_EPRICE
-    pmin = eprice_cfg.get("P_MIN_EUR_PER_GWH", 0.8 * BASE_EPRICE)
-    pmax = eprice_cfg.get("P_MAX_EUR_PER_GWH", 1.2 * BASE_EPRICE)
+    # Price band; use function parameters if provided, else default to ±20% around BASE_EPRICE
+    pmin_cfg = eprice_cfg.get("P_MIN_EUR_PER_GWH", 0.8 * BASE_EPRICE)
+    pmax_cfg = eprice_cfg.get("P_MAX_EUR_PER_GWH", 1.2 * BASE_EPRICE)
+    if pmin is None:
+        pmin = pmin_cfg
+    if pmax is None:
+        pmax = pmax_cfg
     pmin, pmax = min(pmin, pmax), max(pmin, pmax)
 
     # Normalize by local total RES availability (wind + solar), NOT by any wind price
@@ -195,6 +199,13 @@ def build_and_solve(
         + lpSum(ENERGY_GRID_COST_EUR_PER_GWHKM * DIST[i, j] * EGRID[e, i, j, t]
                 for e in E_TYPES for (i, j) in ARCS for t in T)
     )
+
+    # Keep symbolic components for reporting
+    _symbolic_transport_h2 = transport_term
+    _symbolic_energy_cons  = lpSum(cost_elec_by_i[i] * (ESD['wind', i, t] + ESD['solar', i, t]) for i in I for t in T)
+    _symbolic_energy_grid  = lpSum(ENERGY_GRID_COST_EUR_PER_GWHKM * DIST[i, j] * EGRID[e, i, j, t]
+                                   for e in E_TYPES for (i, j) in ARCS for t in T)
+
     opex_prod = lpSum(OPEX_PROD_EUR_PER_TON[l] * Pro[i, l, t] for i in I for l in L for t in T)
 
     # storage handling: type-specific cost per ton, charged on outbound handled by type m (Option A)
@@ -307,7 +318,7 @@ def build_and_solve(
     print(status)
     print(f"Objective (Total Cost) = {obj:,.2f} EUR")
     print(f"Transport (H2): {c_trans:.2f} €/t·km")
-    print(f"Electricity base: {EC_ELEC:,.0f} €/GWh (single price)")
+    print(f"Electricity price band: pmin={pmin:,.0f} €/GWh | pmax={pmax:,.0f} €/GWh")
     if dynamic_energy_pricing:
         min_i = min(cost_elec_by_i.values()) if cost_elec_by_i else 0.0
         max_i = max(cost_elec_by_i.values()) if cost_elec_by_i else 0.0
@@ -352,18 +363,29 @@ def build_and_solve(
     )
     print(f"CAPEX (static, reported once): {capex_eur:,.0f} EUR")
 
-    header = f"{'Period':>8s} | {'Transport':>14s} | {'Energy':>14s} | {'OPEX_prod':>14s} | {'OPEX_store':>14s} | {'Total (no CAPEX)':>18s}"
+    header = f"{'Period':>8s} | {'Transport':>14s} | {'Energy':>14s} | {'Energy_grid':>14s} | {'OPEX_prod':>14s} | {'OPEX_store':>14s} | {'Total (no CAPEX)':>18s}"
     print(header)
     print("-" * len(header))
     per_period_costs = {}
     for t in T:
         transport_t = sum(c_trans * DIST[i, j] * (value(X[i, j, t]) + value(Y[i, j, t])) for (i, j) in ARCS)
         energy_t = sum(cost_elec_by_i[i] * (value(ESD['wind',  i, t]) + value(ESD['solar', i, t])) for i in I)
+        energy_grid_t = sum(ENERGY_GRID_COST_EUR_PER_GWHKM * DIST[i, j] * value(EGRID[e, i, j, t])
+                            for e in E_TYPES for (i, j) in ARCS)
         opex_prod_t = sum(OPEX_PROD_EUR_PER_TON[l] * value(Pro[i, l, t]) for i in I for l in L)
         opex_store_t = sum(OPEX_STORE_EUR_PER_TON[m] * value(OUT[i, m, t]) for i in I for m in Mtypes)
-        total_t = transport_t + energy_t + opex_prod_t + opex_store_t
-        per_period_costs[t] = dict(transport=transport_t, energy=energy_t, opex_prod=opex_prod_t, opex_store=opex_store_t, total=total_t)
-        print(f"{t:>8s} | {transport_t:14,.0f} | {energy_t:14,.0f} | {opex_prod_t:14,.0f} | {opex_store_t:14,.0f} | {total_t:18,.0f}")
+        total_t = transport_t + energy_t + energy_grid_t + opex_prod_t + opex_store_t
+        per_period_costs[t] = dict(transport_h2=transport_t, energy_cons=energy_t, energy_grid=energy_grid_t,
+                                   opex_prod=opex_prod_t, opex_store=opex_store_t, total=total_t)
+        print(f"{t:>8s} | {transport_t:14,.0f} | {energy_t:14,.0f} | {energy_grid_t:14,.0f} | {opex_prod_t:14,.0f} | {opex_store_t:14,.0f} | {total_t:18,.0f}")
+
+    # Horizon totals for cost components
+    total_transport_h2 = sum(v['transport_h2'] for v in per_period_costs.values())
+    total_energy_cons  = sum(v['energy_cons']   for v in per_period_costs.values())
+    total_energy_grid  = sum(v['energy_grid']   for v in per_period_costs.values())
+
+    print("\n=== Cost components (horizon totals, EUR) ===")
+    print(f"CAPEX: {capex_eur:,.0f} | Transport H2: {total_transport_h2:,.0f} | Energy(cons): {total_energy_cons:,.0f} | Energy(grid): {total_energy_grid:,.0f}")
 
     # Quick per-period ops snapshot
     total_X_all = 0.0
@@ -400,6 +422,9 @@ def build_and_solve(
         capex_eur=capex_eur,
         per_period_costs=per_period_costs,
         energy_cost_electricity_by_node=cost_elec_by_i,
+        transport_h2_total=total_transport_h2,
+        energy_cons_total=total_energy_cons,
+        energy_grid_total=total_energy_grid,
     )
 
 
